@@ -15,8 +15,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import ListIcon from '@material-ui/icons/List';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import SportsGolfIcon from '@material-ui/icons/SportsGolf';
 import {
     BrowserRouter as Router,
     Switch,
@@ -124,7 +126,7 @@ export default function MiniDrawer() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap>
-                            Mini variant drawer
+                            Beer Carting Tour 2020
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -149,21 +151,22 @@ export default function MiniDrawer() {
                     <Divider/>
                     <List>
                         <Link to="/">
-                            <ListItem button key='Home'>
-                                <ListItemIcon><MailIcon/></ListItemIcon>
-                                <ListItemText primary='Home'/>
+                            <ListItem button key='Standings'>
+                                <ListItemIcon><ListIcon/></ListItemIcon>
+                                <ListItemText primary='Standings'/>
                             </ListItem>
                         </Link>
                         <Link to="/about">
-                            <ListItem button key='About'>
-                                <ListItemIcon><MailIcon/></ListItemIcon>
-                                <ListItemText primary='About'/>
+                            <ListItem button key='Rounds'>
+                                <ListItemIcon><GolfCourseIcon/></ListItemIcon>
+                                <ListItemText primary='Rounds'/>
                             </ListItem>
                         </Link>
+                        <Divider />
                         <Link to="/users">
-                            <ListItem button key='Users'>
-                                <ListItemIcon><MailIcon/></ListItemIcon>
-                                <ListItemText primary='Users'/>
+                            <ListItem button key='Login'>
+                                <ListItemIcon><AccountCircleIcon/></ListItemIcon>
+                                <ListItemText primary='Login'/>
                             </ListItem>
                         </Link>
                     </List>
