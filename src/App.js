@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,13 +19,18 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
-import SportsGolfIcon from '@material-ui/icons/SportsGolf';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
 } from "react-router-dom";
+import LoginComponent from "./login/LoginComponent";
+import PlayersComponent from "./login/PlayersComponent";
+import RoundsComponent from "./login/RoundsComponent";
+import StandingsComponent from "./login/StandingsComponent";
+import HomeComponent from "./login/HomeComponent";
 
 const drawerWidth = 240;
 
@@ -151,19 +157,31 @@ export default function MiniDrawer() {
                     <Divider/>
                     <List>
                         <Link to="/">
+                            <ListItem button key='Home'>
+                                <ListItemIcon><HomeIcon/></ListItemIcon>
+                                <ListItemText primary='Home'/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/standings">
                             <ListItem button key='Standings'>
                                 <ListItemIcon><ListIcon/></ListItemIcon>
                                 <ListItemText primary='Standings'/>
                             </ListItem>
                         </Link>
-                        <Link to="/about">
+                        <Link to="/rounds">
                             <ListItem button key='Rounds'>
                                 <ListItemIcon><GolfCourseIcon/></ListItemIcon>
                                 <ListItemText primary='Rounds'/>
                             </ListItem>
                         </Link>
                         <Divider />
-                        <Link to="/users">
+                        <Link to="/players">
+                            <ListItem button key='Players'>
+                                <ListItemIcon><GroupAddIcon/></ListItemIcon>
+                                <ListItemText primary='Players'/>
+                            </ListItem>
+                        </Link>
+                        <Link to="/login">
                             <ListItem button key='Login'>
                                 <ListItemIcon><AccountCircleIcon/></ListItemIcon>
                                 <ListItemText primary='Login'/>
@@ -174,31 +192,24 @@ export default function MiniDrawer() {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Switch>
-                        <Route path="/about">
-                            <About/>
+                        <Route path="/rounds">
+                            <RoundsComponent/>
                         </Route>
-                        <Route path="/users">
-                            <Users/>
+                        <Route path="/login">
+                            <LoginComponent/>
+                        </Route>
+                        <Route path="/standings">
+                            <StandingsComponent/>
+                        </Route>
+                        <Route path="/players">
+                            <PlayersComponent/>
                         </Route>
                         <Route path="/">
-                            <Home/>
+                            <HomeComponent/>
                         </Route>
                     </Switch>
                 </main>
             </div>
         </Router>
     );
-}
-
-
-function Home() {
-    return <h2>Home</h2>;
-}
-
-function About() {
-    return <h2>About</h2>;
-}
-
-function Users() {
-    return <h2>Users</h2>;
 }
