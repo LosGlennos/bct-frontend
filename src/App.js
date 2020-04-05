@@ -27,7 +27,6 @@ import {
     Link
 } from "react-router-dom";
 import LoginComponent from "./login/LoginComponent";
-import PlayersComponent from "./login/PlayersComponent";
 import RoundsComponent from "./login/RoundsComponent";
 import StandingsComponent from "./login/StandingsComponent";
 import HomeComponent from "./login/HomeComponent";
@@ -175,12 +174,6 @@ export default function MiniDrawer() {
                             </ListItem>
                         </Link>
                         <Divider />
-                        <Link to="/players">
-                            <ListItem button key='Players'>
-                                <ListItemIcon><GroupAddIcon/></ListItemIcon>
-                                <ListItemText primary='Players'/>
-                            </ListItem>
-                        </Link>
                         <Link to="/login">
                             <ListItem button key='Login'>
                                 <ListItemIcon><AccountCircleIcon/></ListItemIcon>
@@ -200,9 +193,6 @@ export default function MiniDrawer() {
                         </Route>
                         <Route path="/standings">
                             <StandingsComponent/>
-                        </Route>
-                        <Route path="/players">
-                            <PlayersComponent/>
                         </Route>
                         <Route path="/">
                             <HomeComponent/>
