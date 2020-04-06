@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -17,24 +18,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RoundsTable() {
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
+    const [round, setRound] = React.useState('');
+    const [rounds, setRounds] = React.useState([]);
+
+    useEffect(async () => {
+        async function getRounds() {
+            const data = await axios.get("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/rounds");
+            setRounds(data.data);
+        }
+        getRounds();
+    }, []);
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setRound(event.target.value);
     };
 
     return (
         <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-label">Round</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
+                value={round}
                 onChange={handleChange}
             >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {rounds.map((item, key) => {
+                    return <MenuItem value={item.round}>{item.round}</MenuItem>
+                })}
             </Select>
         </FormControl>
     )
