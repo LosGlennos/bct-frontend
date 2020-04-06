@@ -9,6 +9,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import {makeStyles} from "@material-ui/core/styles";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
     addButton: {
@@ -19,6 +20,11 @@ const useStyles = makeStyles(theme => ({
 export default function RoundsComponent() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [playerName, setPlayerName] = React.useState('');
+    const [round, setRound] = React.useState('');
+    const [points, setPoints] = React.useState(null)
+
+    const isAuthenticated = localStorage.getItem("accessToken") !== null;
 
     const handleOpen = () => {
         setOpen(true);
@@ -26,6 +32,39 @@ export default function RoundsComponent() {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handlePlayerNameChange = (e) => {
+        setPlayerName(e.target.value);
+    };
+
+    const handleRoundChange = (e) => {
+        setRound(e.target.value);
+    };
+
+    const handlePointsChange = (e) => {
+        setPoints(e.target.value);
+    };
+
+    const saveRound = async () => {
+        try {
+            await axios.post("https://ye3u04hd7i.execute-api.eu-west-1.amazonaws.com/default/bct-add-round", {
+                playerName: playerName,
+                round: round,
+                points: parseInt(points)
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
+            });
+        } catch (e) {
+            console.error(e);
+        }
+
+        handleClose();
+
+        //TODO: Fetch latest data and populate grid
     };
 
     return (
@@ -41,15 +80,17 @@ export default function RoundsComponent() {
                         <h2>Rounds</h2>
                     </Grid>
                     <Grid item xs={6}>
-                        <Button
+                        {isAuthenticated === true &&
+                            <Button
                             className={classes.addButton}
                             variant="contained"
                             color="primary"
                             startIcon={<AddIcon/>}
                             onClick={handleOpen}
-                        >
+                            >
                             Add round
-                        </Button>
+                            </Button>
+                        }
                     </Grid>
                 </Grid>
             </Container>
@@ -59,17 +100,19 @@ export default function RoundsComponent() {
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="round"
-                        label="Round"
-                        type="text"
+                        id="name"
+                        label="Name"
+                        type="name"
+                        onChange={handlePlayerNameChange}
                         fullWidth
                     />
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="name"
-                        label="Name"
-                        type="name"
+                        id="round"
+                        label="Round"
+                        type="text"
+                        onChange={handleRoundChange}
                         fullWidth
                     />
                     <TextField
@@ -78,6 +121,7 @@ export default function RoundsComponent() {
                         id="points"
                         label="Points"
                         type="number"
+                        onChange={handlePointsChange}
                         fullWidth
                     />
                 </DialogContent>
@@ -85,7 +129,7 @@ export default function RoundsComponent() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={saveRound} color="primary">
                         Save
                     </Button>
                 </DialogActions>
