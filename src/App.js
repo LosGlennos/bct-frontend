@@ -27,7 +27,7 @@ import {
     Link
 } from "react-router-dom";
 import LoginComponent from "./login/LoginComponent";
-import RoundsComponent from "./login/RoundsComponent";
+import RoundsComponent from "./login/Rounds/RoundsComponent";
 import StandingsComponent from "./login/StandingsComponent";
 import HomeComponent from "./login/HomeComponent";
 

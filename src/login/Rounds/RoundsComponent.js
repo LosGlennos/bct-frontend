@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import {makeStyles} from "@material-ui/core/styles";
 import axios from "axios";
+import RoundsTable from "./RoundsTable";
 
 const useStyles = makeStyles(theme => ({
     addButton: {
@@ -48,14 +49,13 @@ export default function RoundsComponent() {
 
     const saveRound = async () => {
         try {
-            await axios.post("https://ye3u04hd7i.execute-api.eu-west-1.amazonaws.com/default/bct-add-round", {
+            await axios.post("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/rounds", {
                 playerName: playerName,
                 round: round,
                 points: parseInt(points)
             }, {
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                    Authorization: "Bearer " + localStorage.getItem("accessToken")
                 }
             });
         } catch (e) {
@@ -93,6 +93,7 @@ export default function RoundsComponent() {
                         }
                     </Grid>
                 </Grid>
+                <RoundsTable/>
             </Container>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add result</DialogTitle>

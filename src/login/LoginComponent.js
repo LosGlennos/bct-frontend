@@ -43,7 +43,7 @@ export default function Login() {
     };
 
     const login = async () => {
-        const tokens = await axios.post("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/bct-login", {
+        const tokens = await axios.post("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/login", {
             username: username,
             password: password
         });
