@@ -5,6 +5,13 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -20,20 +27,50 @@ export default function RoundsTable() {
     const classes = useStyles();
     const [round, setRound] = React.useState('');
     const [rounds, setRounds] = React.useState([]);
+    const [roundResult, setRoundResult] = React.useState([]);
+    const points = [25, 20, 15, 10, 5];
 
-    useEffect(async () => {
+    useEffect(() => {
         async function getRounds() {
-            const data = await axios.get("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/rounds");
-            setRounds(data.data);
+            const response = await axios.get("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/rounds");
+            let rounds = [];
+            for (let i = 0; i < response.data.length; i++) {
+                rounds[rounds.length] = response.data[i].round;
+            }
+            const distinctRounds = [...new Set(rounds)];
+            console.log(distinctRounds);
+            setRounds(distinctRounds);
+            setRound(rounds[0]);
+
+            await getRoundResults(rounds[0]);
         }
         getRounds();
     }, []);
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         setRound(event.target.value);
+
+        await getRoundResults(event.target.value);
+    };
+
+    const getRoundResults = async (round) => {
+        const response = await axios.get("https://wrydin6th9.execute-api.eu-west-1.amazonaws.com/default/rounds?queriedRound=" + encodeURIComponent(round));
+        let roundResults = [];
+        for (let i = 0; i < response.data.length; i++) {
+            roundResults[roundResults.length] = {
+                playerName: response.data[i].playerName,
+                points: response.data[i].points
+            }
+        }
+
+        roundResults.sort((a, b) => b.points - a.points);
+        roundResults.map((v, i, a) => i === points.length ? v.roundPoints = 0 : v.roundPoints = points[i]);
+
+        setRoundResult(roundResults);
     };
 
     return (
+        <div>
         <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Round</InputLabel>
             <Select
@@ -42,10 +79,33 @@ export default function RoundsTable() {
                 value={round}
                 onChange={handleChange}
             >
-                {rounds.map((item, key) => {
-                    return <MenuItem value={item.round}>{item.round}</MenuItem>
+                {rounds.length > 0 && rounds.map((item, key) => {
+                    return <MenuItem key={key} value={item}>{item}</MenuItem>
                 })}
             </Select>
         </FormControl>
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Result</TableCell>
+                            <TableCell align="right">Points</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {roundResult.map((row) => (
+                            <TableRow key={row.playerName}>
+                                <TableCell component="th" scope="row">
+                                    {row.playerName}
+                                </TableCell>
+                                <TableCell align="right">{row.points}</TableCell>
+                                <TableCell align="right">{row.roundPoints}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
