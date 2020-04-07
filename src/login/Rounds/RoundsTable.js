@@ -38,7 +38,6 @@ export default function RoundsTable(props) {
                 rounds[rounds.length] = response.data[i].round;
             }
             const distinctRounds = [...new Set(rounds)];
-            console.log(distinctRounds);
             setRounds(distinctRounds);
             if (round === '') {
                 setRound(rounds[0]);
