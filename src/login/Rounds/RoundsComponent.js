@@ -23,7 +23,8 @@ export default function RoundsComponent() {
     const [open, setOpen] = React.useState(false);
     const [playerName, setPlayerName] = React.useState('');
     const [round, setRound] = React.useState('');
-    const [points, setPoints] = React.useState(null)
+    const [points, setPoints] = React.useState(null);
+    const [latestUpdate, setLatestUpdate] = React.useState(null);
 
     const isAuthenticated = localStorage.getItem("accessToken") !== null;
 
@@ -64,7 +65,7 @@ export default function RoundsComponent() {
 
         handleClose();
 
-        //TODO: Fetch latest data and populate grid
+        setLatestUpdate(Date.now())
     };
 
     return (
@@ -93,7 +94,7 @@ export default function RoundsComponent() {
                         }
                     </Grid>
                 </Grid>
-                <RoundsTable/>
+                <RoundsTable latestUpdate={latestUpdate}/>
             </Container>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add result</DialogTitle>

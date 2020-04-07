@@ -19,7 +19,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import {
     BrowserRouter as Router,
     Switch,

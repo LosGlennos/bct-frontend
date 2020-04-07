@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RoundsTable() {
+export default function RoundsTable(props) {
     const classes = useStyles();
     const [round, setRound] = React.useState('');
     const [rounds, setRounds] = React.useState([]);
@@ -40,12 +40,17 @@ export default function RoundsTable() {
             const distinctRounds = [...new Set(rounds)];
             console.log(distinctRounds);
             setRounds(distinctRounds);
-            setRound(rounds[0]);
-
-            await getRoundResults(rounds[0]);
+            if (round === '') {
+                setRound(rounds[0]);
+                await getRoundResults(rounds[0]);
+            } else {
+                setRound(round);
+                await getRoundResults(round);
+            }
         }
+
         getRounds();
-    }, []);
+    }, [props.latestUpdate]);
 
     const handleChange = async (event) => {
         setRound(event.target.value);
@@ -64,26 +69,36 @@ export default function RoundsTable() {
         }
 
         roundResults.sort((a, b) => b.points - a.points);
-        roundResults.map((v, i, a) => i === points.length ? v.roundPoints = 0 : v.roundPoints = points[i]);
-
+        roundResults.map((v, i, a) => {
+            if (i === points.length) {
+                v.roundPoints = 0;
+            }
+            if (i === 0) {
+                v.roundPoints = points[0];
+            } else if (v.points === a[i - 1].points) {
+                v.roundPoints = a[i - 1].roundPoints;
+            } else {
+                v.roundPoints = points[i]
+            }
+        });
         setRoundResult(roundResults);
     };
 
     return (
         <div>
-        <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Round</InputLabel>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={round}
-                onChange={handleChange}
-            >
-                {rounds.length > 0 && rounds.map((item, key) => {
-                    return <MenuItem key={key} value={item}>{item}</MenuItem>
-                })}
-            </Select>
-        </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Round</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={round}
+                    onChange={handleChange}
+                >
+                    {rounds.length > 0 && rounds.map((item, key) => {
+                        return <MenuItem key={key} value={item}>{item}</MenuItem>
+                    })}
+                </Select>
+            </FormControl>
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -95,10 +110,8 @@ export default function RoundsTable() {
                     </TableHead>
                     <TableBody>
                         {roundResult.map((row) => (
-                            <TableRow key={row.playerName}>
-                                <TableCell component="th" scope="row">
-                                    {row.playerName}
-                                </TableCell>
+                            <TableRow key={row.playerName} hover>
+                                <TableCell>{row.playerName}</TableCell>
                                 <TableCell align="right">{row.points}</TableCell>
                                 <TableCell align="right">{row.roundPoints}</TableCell>
                             </TableRow>
