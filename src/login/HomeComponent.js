@@ -17,7 +17,7 @@ export default function HomeComponent() {
                 <span>Det här är en veckotävling som alla får vara med i. Det finns inget krav på att vara med varje vecka.</span>
                 <br/>
                 <br/>
-                <span><strong>När:</strong> Varje torsdag kl. 17, detta kan också ändras om en annan tid passar för fler.</span>
+                <span><strong>När:</strong> Varje onsdag kl. 17:30, detta kan också ändras om en annan tid passar för fler.</span>
                 <br/>
                 <span><strong>Hur:</strong> 9 hål, poängbogey</span>
                 <br/>
@@ -32,7 +32,7 @@ export default function HomeComponent() {
                 Antal vinnare bestäms genom att antalet deltagare divideras med 3 och avrundas uppåt till närmsta heltal. Dessa kommer att dela på kvällens pott.
             </span>
                 <br/>
-                <span>Vid lika resultat vinner den spelare som har lägst differens mellan sitt högsta och sitt lägsta resultat på banans hål.</span>
+                <span>Vid lika resultat vinner den spelare som har lägst HCP.</span>
                 <br/>
                 <br/>
             </Container>
