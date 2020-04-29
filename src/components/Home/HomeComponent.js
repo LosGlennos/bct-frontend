@@ -17,7 +17,7 @@ export default function HomeComponent() {
                 <span>Det här är en veckotävling som alla får vara med i. Det finns inget krav på att vara med varje vecka.</span>
                 <br/>
                 <br/>
-                <span><strong>När:</strong> Varje onsdag kl. 17:30, detta kan också ändras om en annan tid passar för fler.</span>
+                <span><strong>När:</strong> Varje tisdag kl. 18:00, detta kan också ändras om en annan tid passar för fler.</span>
                 <br/>
                 <span><strong>Hur:</strong> 9 hål, poängbogey</span>
                 <br/>

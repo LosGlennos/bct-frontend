@@ -9,6 +9,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Paper from "@material-ui/core/Paper";
 
+const unique = (value, index, self) => {
+    return self.indexOf(value) === index
+};
+
 export default function StandingsComponent() {
     const points = [25, 20, 15, 10, 5];
     const [standings, setStandings] = React.useState([]);
@@ -23,6 +27,7 @@ export default function StandingsComponent() {
                 players[players.length] = {playerName: response.data[i].playerName};
                 rounds[rounds.length] = response.data[i].round;
             }
+            rounds = rounds.filter(unique);
             players = players.filter((obj, pos, arr) => arr.map(mapObj => mapObj.playerName).indexOf(obj.playerName) === pos);
             setRounds([...new Set(rounds)]);
 
@@ -50,7 +55,7 @@ export default function StandingsComponent() {
                     } else if (v.points === a[i - 1].points) {
                         v.roundPoints = a[i - 1].roundPoints;
                     } else {
-                        v.roundPoints = points[i]
+                        v.roundPoints = points[i] == null ? 0 : points[i];
                     }
                 });
                 allRoundResults[allRoundResults.length] = roundResults;
@@ -103,7 +108,7 @@ export default function StandingsComponent() {
                                     {player.playerName}
                                 </TableCell>
                                 {rounds.map(round => {
-                                    if (player[round]) {
+                                    if (player[round] !== undefined) {
                                         return <TableCell>{player[round]}</TableCell>
                                     } else {
                                         return <TableCell> </TableCell>

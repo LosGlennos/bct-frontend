@@ -25,10 +25,10 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import LoginComponent from "./login/LoginComponent";
-import RoundsComponent from "./login/Rounds/RoundsComponent";
-import StandingsComponent from "./login/StandingsComponent";
-import HomeComponent from "./login/HomeComponent";
+import LoginComponent from "./components/Login/LoginComponent";
+import RoundsComponent from "./components/Rounds/RoundsComponent";
+import StandingsComponent from "./components/Standings/StandingsComponent";
+import HomeComponent from "./components/Home/HomeComponent";
 
 const drawerWidth = 240;
 

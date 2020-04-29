@@ -41,7 +41,7 @@ export default function RoundsTable(props) {
             setRounds(distinctRounds);
             if (round === '') {
                 setRound(rounds[0]);
-                await getRoundResults(rounds[0]);
+                await getRoundResults(rounds[rounds.length - 1]);
             } else {
                 setRound(round);
                 await getRoundResults(round);
@@ -77,7 +77,7 @@ export default function RoundsTable(props) {
             } else if (v.points === a[i - 1].points) {
                 v.roundPoints = a[i - 1].roundPoints;
             } else {
-                v.roundPoints = points[i]
+                v.roundPoints = points[i] == null ? 0 : points[i];
             }
         });
         setRoundResult(roundResults);
