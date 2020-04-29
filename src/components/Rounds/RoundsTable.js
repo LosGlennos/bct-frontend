@@ -40,7 +40,7 @@ export default function RoundsTable(props) {
             const distinctRounds = [...new Set(rounds)];
             setRounds(distinctRounds);
             if (round === '') {
-                setRound(rounds[0]);
+                setRound(rounds[rounds.length - 1]);
                 await getRoundResults(rounds[rounds.length - 1]);
             } else {
                 setRound(round);
