@@ -38,13 +38,17 @@ export default function RoundsTable(props) {
                 rounds[rounds.length] = response.data[i].round;
             }
             const distinctRounds = [...new Set(rounds)];
+            distinctRounds.sort((a, b) => {
+                if (a < b)
+                    return -1
+            });
             setRounds(distinctRounds);
             if (round === '') {
-                setRound(rounds[rounds.length - 1]);
-                await getRoundResults(rounds[rounds.length - 1]);
+                setRound(distinctRounds[distinctRounds.length - 1]);
+                await getRoundResults(distinctRounds[distinctRounds.length - 1]);
             } else {
-                setRound(round);
-                await getRoundResults(round);
+                setRound(distinctRounds);
+                await getRoundResults(distinctRounds);
             }
         }
 

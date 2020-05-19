@@ -28,6 +28,10 @@ export default function StandingsComponent() {
                 rounds[rounds.length] = response.data[i].round;
             }
             rounds = rounds.filter(unique);
+            rounds.sort((a, b) => {
+                if (a < b)
+                    return -1
+            });
             players = players.filter((obj, pos, arr) => arr.map(mapObj => mapObj.playerName).indexOf(obj.playerName) === pos);
             setRounds([...new Set(rounds)]);
 
